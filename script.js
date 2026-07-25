@@ -1,4 +1,4 @@
-const BIN_URL = 'https://api.npoint.io/19a7247d19c80b492d84/0';
+const BIN_URL = 'https://api.npoint.io/19a7247d19c80b492d84';
 
 const serverList = {
     fetch: async function(order) {
