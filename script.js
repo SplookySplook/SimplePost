@@ -1,4 +1,4 @@
-const BIN_URL = '[https://api.npoint.io/53653570b0945749c1f2](https://api.npoint.io/53653570b0945749c1f2)'; // Your free cloud JSON endpoint
+const BIN_URL = 'https://api.npoint.io/53653570b0945749c1f2';
 
 const serverList = {
     fetch: async function(order) {
@@ -22,24 +22,60 @@ const serverList = {
     
     append: async function(markdownData) {
         try {
-            // 1. Fetch current posts
             const res = await fetch(BIN_URL);
             let posts = await res.json();
             
-            // 2. Add new post to top
             posts.unshift(markdownData);
             
-            // 3. Save back to cloud bin
             await fetch(BIN_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(posts)
             });
             
-            // 4. Refresh feed
             this.fetch('newest');
         } catch (error) {
             console.error("Failed to save post:", error);
         }
     }
 };
+
+// Initial load
+serverList.fetch('newest');
+
+// State management for adding posts
+let add = false;
+
+function renderUI() {
+    const addingContainer = document.getElementById('adding-container');
+    addingContainer.innerHTML = '';
+
+    if (add) {
+        const box = document.createElement('div');
+        box.className = 'adding-box';
+        box.innerHTML = `
+            <textarea id="post-input" placeholder="Enter your post..."></textarea>
+            <button id="send" class="send-btn">
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                Send
+            </button>
+        `;
+        addingContainer.appendChild(box);
+
+        document.getElementById('send').addEventListener('click', async () => {
+            const postText = document.getElementById('post-input').value;
+            
+            if (postText.trim() !== "") {
+                await serverList.append(postText);
+                add = false;
+                renderUI();
+            }
+        });
+    }
+}
+
+// Main plus button toggle
+document.getElementById('post').addEventListener('click', () => {
+    add = !add;
+    renderUI();
+});
