@@ -1,4 +1,4 @@
-const BIN_URL = '[https://api.jsonbin.io/v3/b/6a642557da38895dfe8cb0bd](https://api.jsonbin.io/v3/b/6a642557da38895dfe8cb0bd)';
+const BIN_URL = 'https://api.jsonbin.io/v3/b/6a642557da38895dfe8cb0bd';
 
 const serverList = {
     fetch: async function(order) {
