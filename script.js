@@ -21,13 +21,14 @@ const serverList = {
             console.error("Failed to fetch posts:", error);
         }
     },
-    
     append: async function(markdownData) {
         try {
             const res = await fetch(BIN_URL);
             if (!res.ok) throw new Error(`Fetch failed with status ${res.status}`);
             let data = await res.json();
-            let posts = data.record || data;
+            
+            // Ensure posts is correctly treated as an array whether npoint returns an array or an object
+            let posts = Array.isArray(data) ? data : (data.record || []);
             
             posts.unshift(markdownData);
             
