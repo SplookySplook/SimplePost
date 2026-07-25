@@ -22,15 +22,12 @@ const serverList = {
     
     append: async function(markdownData) {
         try {
-            // 1. Fetch current posts
             const res = await fetch(BIN_URL);
             if (!res.ok) throw new Error(`Fetch failed with status ${res.status}`);
             let posts = await res.json();
             
-            // 2. Add new post to top
             posts.unshift(markdownData);
             
-            // 3. Save back to cloud bin using PUT (required for npoint updates)
             const updateRes = await fetch(BIN_URL, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -39,13 +36,13 @@ const serverList = {
             
             if (!updateRes.ok) throw new Error(`Save failed with status ${updateRes.status}`);
             
-            // 4. Refresh feed
             this.fetch('newest');
         } catch (error) {
             console.error("Failed to save post:", error);
-            alert("Error saving post: " + error.message); // Forces it out of the shadows
+            alert("Error saving post: " + error.message);
         }
     }
+};
 
 // Initial load
 serverList.fetch('newest');
