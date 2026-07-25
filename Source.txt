@@ -1,0 +1,25 @@
+head:
+    color-mode = "dark"
+    title = "SimplePost"
+    dependancy "server-list"
+    style = "modern" # "modern" sleek design with font Roboto, curved corners and neon colors
+    dependency "files"
+
+body:
+    header(centered: x) "Welcome to SimplePost"
+    list(maindisplay: markdown, type: text boxes) [if add=true:
+    {
+    textBox(prompt: "Enter your post", variable: "post", group: "adding")
+    }] server-list.fetch(server: "feed", order: newest)
+    button(id: "post", icon: "icons.com/data/plus.png", background: color="blue", shape: "square")
+    
+    if add=true:
+        button(group: "adding", position: "bottom-right", id: "send" icon="icons.com/data/airplane.png") "Send"
+
+script:
+    id.send.pressed: 
+        log("button pressed!")
+        server-list.append(server: "feed", file.convert.md(post))
+        add = false
+    id.post.pressed:
+        add = true
