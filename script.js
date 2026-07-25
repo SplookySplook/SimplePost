@@ -4,7 +4,8 @@ const serverList = {
     fetch: async function(order) {
         try {
             const response = await fetch(BIN_URL);
-            let posts = await response.json();
+            let data = await response.json();
+            let posts = data.record || data;
             
             const listContainer = document.getElementById('post-list');
             listContainer.innerHTML = '';
@@ -24,7 +25,8 @@ const serverList = {
         try {
             const res = await fetch(BIN_URL);
             if (!res.ok) throw new Error(`Fetch failed with status ${res.status}`);
-            let posts = await res.json();
+            let data = await res.json();
+            let posts = data.record || data;
             
             posts.unshift(markdownData);
             
