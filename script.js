@@ -1,4 +1,4 @@
-const BIN_URL = 'https://api.npoint.io/YOUR_BIN_ID'; // Your free cloud JSON endpoint
+const BIN_URL = '[https://api.npoint.io/53653570b0945749c1f2](https://api.npoint.io/53653570b0945749c1f2)'; // Your free cloud JSON endpoint
 
 const serverList = {
     fetch: async function(order) {
