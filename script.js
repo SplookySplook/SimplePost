@@ -1,14 +1,16 @@
 const BIN_URL = 'https://api.jsonbin.io/v3/b/6a642557da38895dfe8cb0bd';
+const MASTER_KEY = '$2a$10$9sgqjW/cI9A7s3SqU8Ye1.tWd.LfzmmY2x1J.TdhZWBALVNRCww/2';
 
 const serverList = {
     fetch: async function(order) {
         try {
             const response = await fetch(BIN_URL, {
                 headers: {
-                    'X-Master-Key': '$2a$10$9sgqjW/cI9A7s3SqU8Ye1.tWd.LfzmmY2x1J.TdhZWBALVNRCww/2'
+                    'X-Master-Key': MASTER_KEY
                 }
             });
             let data = await response.json();
+            // JSONbin wraps data inside data.record
             let posts = Array.isArray(data) ? data : (data.record || []);
             
             const listContainer = document.getElementById('post-list');
@@ -29,7 +31,7 @@ const serverList = {
         try {
             const res = await fetch(BIN_URL, {
                 headers: {
-                    'X-Master-Key': '$2a$10$9sgqjW/cI9A7s3SqU8Ye1.tWd.LfzmmY2x1J.TdhZWBALVNRCww/2'
+                    'X-Master-Key': MASTER_KEY
                 }
             });
             if (!res.ok) throw new Error(`Fetch failed with status ${res.status}`);
@@ -42,7 +44,7 @@ const serverList = {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'X-Master-Key': '$2a$10$9sgqjW/cI9A7s3SqU8Ye1.tWd.LfzmmY2x1J.TdhZWBALVNRCww/2'
+                    'X-Master-Key': MASTER_KEY
                 },
                 body: JSON.stringify(posts)
             });
@@ -56,6 +58,3 @@ const serverList = {
         }
     }
 };
-
-// Initial load
-serverList.fetch('newest');
