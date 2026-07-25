@@ -5,7 +5,8 @@ const serverList = {
         try {
             const response = await fetch(BIN_URL);
             let data = await response.json();
-            let posts = data.record || data;
+            // Ensure posts is always an array
+            let posts = Array.isArray(data) ? data : (data.record || []);
             
             const listContainer = document.getElementById('post-list');
             listContainer.innerHTML = '';
